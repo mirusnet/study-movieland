@@ -9,10 +9,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class MovieToMovieDtoConverterImpl implements MovieToMovieDtoConverter {
+
+    @Override
+    public MovieDto convert(Movie movie) {
+        MovieDto movieDto = new MovieDto();
+        movieDto.setId(movie.getId());
+        movieDto.setNameNative(movie.getNameNative());
+        movieDto.setNameRussian(movie.getNameRussian());
+        movieDto.setPicturePath(movie.getPicturePath());
+        movieDto.setPrice(movie.getPrice());
+        movieDto.setRating(movie.getRating());
+        movieDto.setYearOfRelease(movie.getYearOfRelease());
+        return movieDto;
+    }
+
     @Override
     public List<MovieDto> convert(List<Movie> movies) {
         return movies.stream()
-                .map(MovieDto::new)
+                .map(this::convert)
                 .collect(Collectors.toList());
     }
 }

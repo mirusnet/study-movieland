@@ -12,11 +12,23 @@
         <context:exclude-filter type="regex" expression="com\.mirus\.movieland\.controller\..*"/>
     </context:component-scan>
 
+    <bean id="properties" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">
+        <property name="resources" value="classpath:application.yml"/>
+    </bean>
+
+    <context:property-placeholder properties-ref="properties"/>
+
     <bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/movieland" />
-        <property name="username" value="root" />
-        <property name="password" value="mirus" />
+        <property name="initialSize" value="3" />
+        <property name="maxTotal" value="12" />
+        <property name="maxIdle" value="8" />
+        <property name="minIdle" value="0" />
+
+
+        <property name="url" value="${db.url}" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
     </bean>
 
 
@@ -27,5 +39,7 @@
     <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
         <constructor-arg ref="dataSource"/>
     </bean>
+
+
 
 </beans>

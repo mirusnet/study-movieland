@@ -6,5 +6,7 @@ import com.mirus.movieland.entity.Movie;
 import java.util.List;
 
 public interface MovieToMovieDtoConverter {
+    MovieDto convert(Movie movie);
+
     List<MovieDto> convert(List<Movie> movies);
 }

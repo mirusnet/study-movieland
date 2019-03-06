@@ -1,8 +1,6 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.data.dto.MovieDto;
-import com.mirus.movieland.repository.MovieRepository;
-import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.service.MovieService;
 import com.mirus.movieland.service.util.MovieToMovieDtoConverter;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1/movie")
+@RequestMapping(value = "/movie")
 @RequiredArgsConstructor
 public class MovieController {
 
@@ -23,7 +21,7 @@ public class MovieController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     List<MovieDto> getAll() {
-        return movieToMovieDtoConverter.convert(movieService.getAll());
+        return movieToMovieDtoConverter.convert(movieService.findAll());
     }
 
 }

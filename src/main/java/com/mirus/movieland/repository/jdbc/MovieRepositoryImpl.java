@@ -14,12 +14,12 @@ import java.util.List;
 public class MovieRepositoryImpl implements MovieRepository {
 
     private static final MovieRowMapper MOVIE_ROW_MAPPER = new MovieRowMapper();
-    private static final String GET_ALL_SQL = "select * from  movie";
+    private static final String GET_ALL_SQL = "select id, original_name, russian_name, description, poster, price, raiting, year from  movie";
 
     private final JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Movie> getAll() {
+    public List<Movie> findAll() {
         return jdbcTemplate.query(GET_ALL_SQL, MOVIE_ROW_MAPPER);
     }
 }
