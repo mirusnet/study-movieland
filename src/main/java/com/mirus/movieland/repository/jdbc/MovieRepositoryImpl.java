@@ -15,11 +15,17 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     private static final MovieRowMapper MOVIE_ROW_MAPPER = new MovieRowMapper();
     private static final String GET_ALL_SQL = "select id, original_name, russian_name, description, poster, price, raiting, year from  movie";
+    private static final String GET_THREE_RANDOM = "select id, original_name, russian_name, description, poster, price, raiting, year from  movie order by RAND() limit ?";
 
     private final JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Movie> findAll() {
         return jdbcTemplate.query(GET_ALL_SQL, MOVIE_ROW_MAPPER);
+    }
+
+    @Override
+    public List<Movie> findRandom(int count) {
+        return jdbcTemplate.query(GET_THREE_RANDOM, MOVIE_ROW_MAPPER, count);
     }
 }

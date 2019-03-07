@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MovieService {
     List<Movie> findAll();
+
+    List<Movie> findRandom();
 }
