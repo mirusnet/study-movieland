@@ -20,6 +20,10 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <username>admin</username>
+                    <password>admin</password>
+                    <update>true</update>
                     <path>/</path>
                 </configuration>
             </plugin>
@@ -34,11 +38,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <!--<testResources>-->
-            <!--<testResource>-->
-                <!--<directory>src/main/webapp/WEB-INF</directory>-->
-            <!--</testResource>-->
-        <!--</testResources>-->
     </build>
 
 
