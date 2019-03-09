@@ -2,6 +2,7 @@ db:
   url: jdbc:mysql://localhost:3306/movieland
   username: root
   password: mirus
+  maxIdle: 8
 
 movie:
   random:
