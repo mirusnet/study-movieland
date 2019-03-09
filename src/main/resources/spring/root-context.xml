@@ -22,7 +22,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="initialSize" value="3" />
         <property name="maxTotal" value="12" />
-        <property name="maxIdle" value="${db.maxIdle}" />
+        <property name="maxIdle" value="${db.maxIdle:8}" />
         <property name="minIdle" value="0" />
 
 
