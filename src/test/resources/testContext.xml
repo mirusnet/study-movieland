@@ -8,4 +8,8 @@
     <bean id="movieService" name="movieService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="com.mirus.movieland.service.MovieService"/>
     </bean>
+
+    <bean id="genreService" name="genreService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.mirus.movieland.service.GenreService"/>
+    </bean>
 </beans>
