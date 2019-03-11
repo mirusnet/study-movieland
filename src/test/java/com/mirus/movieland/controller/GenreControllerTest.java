@@ -2,9 +2,7 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.entity.Genre;
-import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.service.GenreService;
-import com.mirus.movieland.service.MovieService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:testContext.xml", "classpath:movieland-servlet.xml", "classpath:spring/root-context.xml"})
+@ContextConfiguration(locations = {"classpath:testContext.xml", "file:src/main/webapp/WEB-INF/movieland-servlet.xml", "classpath:spring/root-context.xml"})
 public class GenreControllerTest {
 
     private MockMvc mockMvc;

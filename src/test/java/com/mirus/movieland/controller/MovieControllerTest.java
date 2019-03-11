@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:testContext.xml", "classpath:movieland-servlet.xml", "classpath:spring/root-context.xml"})
+@ContextConfiguration(locations = {"classpath:testContext.xml", "file:src/main/webapp/WEB-INF/movieland-servlet.xml", "classpath:spring/root-context.xml"})
 public class MovieControllerTest {
 
     private MockMvc mockMvc;
@@ -52,9 +52,19 @@ public class MovieControllerTest {
         movie.setNameRussian("russian");
         movie.setDescription("description");
         movie.setRating(48.48);
-        movie.setPrice(49.49);
+        movie.setPrice(48.48);
         movie.setYearOfRelease("1986");
-        movies = Arrays.asList(movie);
+
+        Movie movie1 = new Movie();
+        movie1.setId(49);
+        movie1.setNameNative("native_two");
+        movie1.setNameRussian("russian_two");
+        movie1.setDescription("description_two");
+        movie1.setRating(49.49);
+        movie1.setPrice(49.49);
+        movie1.setYearOfRelease("1986");
+
+        movies = Arrays.asList(movie, movie1);
     }
 
     @Test
@@ -70,18 +80,33 @@ public class MovieControllerTest {
     }
 
     @Test
+    public void testOkStatusForGetMoviesByGenreId() throws Exception {
+        mockMvc.perform(get("/movie/genre/1"))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
     public void testGetAllMovies() throws Exception {
         when(movieService.findAll()).thenReturn(movies);
 
         mockMvc.perform(get("/movie"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(2)))
+
                 .andExpect(jsonPath("$[0].id", is(48)))
                 .andExpect(jsonPath("$[0].nameNative", is("native")))
                 .andExpect(jsonPath("$[0].nameRussian", is("russian")))
-                .andExpect(jsonPath("$[0].price", is(49.49)))
+                .andExpect(jsonPath("$[0].price", is(48.48)))
                 .andExpect(jsonPath("$[0].rating", is(48.48)))
-                .andExpect(jsonPath("$[0].yearOfRelease", is("1986")));
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1986")))
+
+                .andExpect(jsonPath("$[1].id", is(49)))
+                .andExpect(jsonPath("$[1].nameNative", is("native_two")))
+                .andExpect(jsonPath("$[1].nameRussian", is("russian_two")))
+                .andExpect(jsonPath("$[1].price", is(49.49)))
+                .andExpect(jsonPath("$[1].rating", is(49.49)))
+                .andExpect(jsonPath("$[1].yearOfRelease", is("1986")));
     }
 
 
@@ -91,12 +116,43 @@ public class MovieControllerTest {
 
         mockMvc.perform(get("/movie/random"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(2)))
+
                 .andExpect(jsonPath("$[0].id", is(48)))
                 .andExpect(jsonPath("$[0].nameNative", is("native")))
                 .andExpect(jsonPath("$[0].nameRussian", is("russian")))
-                .andExpect(jsonPath("$[0].price", is(49.49)))
+                .andExpect(jsonPath("$[0].price", is(48.48)))
                 .andExpect(jsonPath("$[0].rating", is(48.48)))
-                .andExpect(jsonPath("$[0].yearOfRelease", is("1986")));
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1986")))
+
+                .andExpect(jsonPath("$[1].id", is(49)))
+                .andExpect(jsonPath("$[1].nameNative", is("native_two")))
+                .andExpect(jsonPath("$[1].nameRussian", is("russian_two")))
+                .andExpect(jsonPath("$[1].price", is(49.49)))
+                .andExpect(jsonPath("$[1].rating", is(49.49)))
+                .andExpect(jsonPath("$[1].yearOfRelease", is("1986")));
+    }
+
+    @Test
+    public void testGetMoviesByGenreId() throws Exception {
+        when(movieService.findByGenreId(1)).thenReturn(movies);
+
+        mockMvc.perform(get("/movie/genre/1"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$", hasSize(2)))
+
+                .andExpect(jsonPath("$[0].id", is(48)))
+                .andExpect(jsonPath("$[0].nameNative", is("native")))
+                .andExpect(jsonPath("$[0].nameRussian", is("russian")))
+                .andExpect(jsonPath("$[0].price", is(48.48)))
+                .andExpect(jsonPath("$[0].rating", is(48.48)))
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1986")))
+
+                .andExpect(jsonPath("$[1].id", is(49)))
+                .andExpect(jsonPath("$[1].nameNative", is("native_two")))
+                .andExpect(jsonPath("$[1].nameRussian", is("russian_two")))
+                .andExpect(jsonPath("$[1].price", is(49.49)))
+                .andExpect(jsonPath("$[1].rating", is(49.49)))
+                .andExpect(jsonPath("$[1].yearOfRelease", is("1986")));
     }
 }
