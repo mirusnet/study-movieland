@@ -11,7 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:testContext.xml", "file:src/main/webapp/WEB-INF/movieland-servlet.xml", "classpath:spring/root-context.xml"})
+@ContextConfiguration(locations = {"classpath:spring/root-context.xml"})
 public class ScheduledTaskTest {
 
     @Value("${genre.clean.cron.expression}")
