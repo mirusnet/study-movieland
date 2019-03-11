@@ -1,7 +1,6 @@
 package com.mirus.movieland.repository.jdbc.mapper;
 
 import com.mirus.movieland.entity.Genre;
-import com.mirus.movieland.entity.Movie;
 import org.junit.Test;
 
 import java.sql.ResultSet;
