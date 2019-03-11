@@ -3,12 +3,10 @@ db:
   username: root
   password: mirus
   maxIdle: 8
+  minIdle: 4
+  maxTotal: 12
+  initialSize: 3
 
 movie:
   random:
     limit: 3
-
-genre:
-  clean:
-    cron:
-      expression: 0 0 0/4 * * *

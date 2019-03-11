@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
-
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
 
     <context:component-scan base-package="com.mirus.movieland">
@@ -20,11 +19,11 @@
     <context:property-placeholder properties-ref="properties"/>
 
     <bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="initialSize" value="3" />
-        <property name="maxTotal" value="12" />
-        <property name="maxIdle" value="${db.maxIdle:8}" />
-        <property name="minIdle" value="0" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="initialSize" value="${db.initialSize:3}"/>
+        <property name="maxTotal" value="${db.maxTotal:12}"/>
+        <property name="maxIdle" value="${db.maxIdle:8}"/>
+        <property name="minIdle" value="${db.minIdle:4}"/>
 
         <property name="url" value="${db.url}"/>
         <property name="username" value="${db.username}"/>
@@ -40,15 +39,4 @@
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <cache:annotation-driven/>
-
-    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
-        <property name="caches">
-            <set>
-                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" name="genres"/>
-            </set>
-        </property>
-    </bean>
-
-    <task:annotation-driven/>
 </beans>
