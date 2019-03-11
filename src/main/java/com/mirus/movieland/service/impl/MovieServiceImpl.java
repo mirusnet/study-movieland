@@ -27,4 +27,10 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> findRandom() {
         return movieRepository.findRandom(randomLimit);
     }
+
+    @Override
+    public List<Movie> findByGenreId(int genreId) {
+        return movieRepository.findByGenreId(genreId);
+
+    }
 }

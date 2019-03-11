@@ -8,4 +8,6 @@ public interface MovieRepository {
     List<Movie> findAll();
 
     List<Movie> findRandom(int count);
+
+    List<Movie> findByGenreId(int genreId);
 }
