@@ -7,9 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Genre {
+@AllArgsConstructor
+public class Review {
     private int id;
-    private String name;
+    private String text;
+
+    private User user;
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface GenreRepository {
     List<Genre> findAll();
+
+    List<Genre> findByMovieId(int id);
 }

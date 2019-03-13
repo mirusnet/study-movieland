@@ -3,6 +3,8 @@ package com.mirus.movieland.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class Movie {
@@ -14,4 +16,8 @@ public class Movie {
     private double rating;
     private double price;
     private String picturePath;
+
+    private List<Country> countries;
+    private List<Genre> genres;
+    private List<Review> reviews;
 }
