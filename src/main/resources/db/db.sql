@@ -9,7 +9,7 @@ CREATE TABLE `movie` (
    `year` varchar(255) NOT NULL,
    `description` text,
    `poster` varchar(255) NOT NULL,
-   `raiting` float(2,1) NOT NULL,
+   `rating` float(2,1) NOT NULL,
    `price` float(5,2) NOT NULL,
    PRIMARY KEY (`id`)
  );
