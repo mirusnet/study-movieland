@@ -1,6 +1,7 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.entity.Country;
+import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Genre;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.Review;
@@ -240,6 +241,40 @@ public class MovieControllerTest {
         when(movieService.findById(48)).thenReturn(movieWithDetails);
 
         mockMvc.perform(get("/movie/48"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(jsonPath("$.id", is(48)))
+                .andExpect(jsonPath("$.nameNative", is("native")))
+                .andExpect(jsonPath("$.nameRussian", is("russian")))
+                .andExpect(jsonPath("$.price", is(48.48)))
+                .andExpect(jsonPath("$.rating", is(48.48)))
+                .andExpect(jsonPath("$.yearOfRelease", is("1986")))
+
+                .andExpect(jsonPath("$.genres", hasSize(2)))
+                .andExpect(jsonPath("$.countries", hasSize(2)))
+                .andExpect(jsonPath("$.reviews", hasSize(1)))
+
+                .andExpect(jsonPath("$.genres[0].id", is(0)))
+                .andExpect(jsonPath("$.genres[0].name", is("Comedy")))
+                .andExpect(jsonPath("$.genres[1].id", is(1)))
+                .andExpect(jsonPath("$.genres[1].name", is("Detective")))
+
+                .andExpect(jsonPath("$.reviews[0].id", is(0)))
+                .andExpect(jsonPath("$.reviews[0].text", is("SomeText")))
+
+                .andExpect(jsonPath("$.reviews[0].user.id", is(0)))
+                .andExpect(jsonPath("$.reviews[0].user.name", is("Anonimous")))
+                .andExpect(jsonPath("$.reviews[0].user.email", is("an@db.com")))
+
+                .andExpect(jsonPath("$.reviews[0].user.password").doesNotExist());
+    }
+
+    @Test
+    public void testMovieByIdWithCurrency() throws Exception {
+        when(movieService.findById(48, Currency.USD)).thenReturn(movieWithDetails);
+
+        mockMvc.perform(get("/movie/48?currency=USD"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print())
