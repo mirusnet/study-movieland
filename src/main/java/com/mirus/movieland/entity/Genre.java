@@ -1,15 +1,11 @@
 package com.mirus.movieland.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class Genre {
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
 }
