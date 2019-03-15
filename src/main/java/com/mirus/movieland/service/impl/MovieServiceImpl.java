@@ -7,8 +7,11 @@ import com.mirus.movieland.repository.GenreRepository;
 import com.mirus.movieland.repository.MovieRepository;
 import com.mirus.movieland.repository.ReviewRepository;
 import com.mirus.movieland.repository.jdbc.SortParameters;
+import com.mirus.movieland.service.CountryService;
 import com.mirus.movieland.service.CurrencyService;
+import com.mirus.movieland.service.GenreService;
 import com.mirus.movieland.service.MovieService;
+import com.mirus.movieland.service.ReviewService;
 import com.mirus.movieland.service.util.CurrencyConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +24,9 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
-    private final CountryRepository countryRepository;
-    private final GenreRepository genreRepository;
-    private final ReviewRepository reviewRepository;
+    private final CountryService countryService;
+    private final GenreService genreService;
+    private final ReviewService reviewService;
     private final CurrencyService currencyService;
 
     @Value("${movie.random.limit:3}")
@@ -58,9 +61,9 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(int id) {
         Movie movie = movieRepository.findById(id);
-        movie.setCountries(countryRepository.findByMovieId(id));
-        movie.setGenres(genreRepository.findByMovieId(id));
-        movie.setReviews(reviewRepository.findByMovieId(id));
+        movie.setCountries(countryService.findByMovieId(id));
+        movie.setGenres(genreService.findByMovieId(id));
+        movie.setReviews(reviewService.findByMovieId(id));
         return movie;
     }
 
