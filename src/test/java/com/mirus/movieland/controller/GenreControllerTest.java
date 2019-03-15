@@ -46,13 +46,8 @@ public class GenreControllerTest {
         Mockito.reset(genreService);
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        Genre genre = new Genre();
-        genre.setId(0);
-        genre.setName("comedy");
-
-        Genre genre1 = new Genre();
-        genre1.setId(1);
-        genre1.setName("detective");
+        Genre genre = new Genre(0, "comedy");
+        Genre genre1 = new Genre(0, "detective");
 
         genres = Arrays.asList(genre, genre1);
     }

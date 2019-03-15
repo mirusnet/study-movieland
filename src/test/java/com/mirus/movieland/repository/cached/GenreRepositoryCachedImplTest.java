@@ -31,13 +31,9 @@ public class GenreRepositoryCachedImplTest {
 
     @Test
     public void getCachedGenres() {
-        Genre genre = new Genre();
-        genre.setId(1);
-        genre.setName("FirstGenre");
+        Genre genre = new Genre(1, "FirstGenre");
 
-        Genre genre1 = new Genre();
-        genre1.setId(2);
-        genre1.setName("SecondGenre");
+        Genre genre1 = new Genre(2, "SecondGenre");
 
         List<Genre> genres;
 
