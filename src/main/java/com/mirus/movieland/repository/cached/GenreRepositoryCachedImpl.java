@@ -28,6 +28,11 @@ public class GenreRepositoryCachedImpl implements GenreRepository {
         return new ArrayList<>(genreCache);
     }
 
+    @Override
+    public List<Genre> findByMovieId(int id) {
+        return genreRepository.findByMovieId(id);
+    }
+
     @PostConstruct
     @Scheduled(cron = "${genre.clean.cron.expression}")
     public void refresh() {

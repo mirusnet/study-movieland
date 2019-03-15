@@ -18,6 +18,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     private static final String GET_ALL_SQL = "select id, original_name, russian_name, description, poster, price, rating, year from  movie";
     private static final String GET_THREE_RANDOM = "select id, original_name, russian_name, description, poster, price, rating, year from  movie order by RAND() limit ?";
     private static final String GET_ALL_BY_GENRE_ID = "select m.id, m.original_name, m.russian_name, m.description, m.poster, m.price, m.rating, m.year from movie m join movie_genre mg on m.id = mg.movieid where mg.genreid = ?";
+    private static final String GET_ONE_BY_ID = "select id, original_name, russian_name, description, poster, price, rating, year from  movie where id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -44,5 +45,10 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public List<Movie> findByGenreId(int genreId, SortParameters sortParameters) {
         return jdbcTemplate.query(QueryBuilder.addSortParameters(GET_ALL_BY_GENRE_ID, sortParameters), MOVIE_ROW_MAPPER, genreId);
+    }
+
+    @Override
+    public Movie findById(int id) {
+        return jdbcTemplate.queryForObject(GET_ONE_BY_ID, MOVIE_ROW_MAPPER, id);
     }
 }
