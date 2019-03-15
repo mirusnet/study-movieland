@@ -67,10 +67,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(int id, Currency currency) {
         Movie movie = findById(id);
-        Double rate = currencyService.getRateByCurrency(currency).getRate();
+        Double rate = currencyService.getRateByCurrency(currency);
         movie.setPrice(CurrencyConverter.convert(movie.getPrice(), rate));
         return movie;
     }
-
-
 }

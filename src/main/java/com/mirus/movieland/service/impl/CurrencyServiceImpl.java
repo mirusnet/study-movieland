@@ -34,27 +34,17 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     @PostConstruct
     @Scheduled(cron = "${currency.update.cron.expression}")
-    public void updateRates() {
+    public synchronized void updateRates() {
         this.currencyRates = new HashMap<>();
 
         Stream.of(restTemplate.getForObject(url, CurrencyRate[].class))
                 .filter(isEUR.or(isUSD))
-                .forEach(currencyRate -> {
-                    currencyRates.put(Currency.fromValue(currencyRate.getCode()), currencyRate);
-                });
+                .forEach(currencyRate -> currencyRates.put(Currency.fromValue(currencyRate.getCode()), currencyRate));
     }
 
     @Override
-    public CurrencyRate getRateByCurrency(Currency currency) {
-        CurrencyRate currencyRate = this.currencyRates.get(currency);
-
-        CurrencyRate currencyRateSafe = new CurrencyRate();
-        currencyRateSafe.setId(currencyRate.getId());
-        currencyRateSafe.setCode(currencyRate.getCode());
-        currencyRateSafe.setRate(currencyRate.getRate());
-        currencyRateSafe.setFullName(currencyRate.getFullName());
-        currencyRateSafe.setDate(currencyRate.getDate());
-        return currencyRateSafe;
+    public synchronized Double getRateByCurrency(Currency currency) {
+        return this.currencyRates.get(currency).getRate();
     }
 }
 

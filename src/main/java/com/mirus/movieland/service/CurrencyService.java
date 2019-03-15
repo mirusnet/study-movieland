@@ -6,5 +6,5 @@ import com.mirus.movieland.entity.CurrencyRate;
 public interface CurrencyService {
     void updateRates();
 
-    CurrencyRate getRateByCurrency(Currency currency);
+    Double getRateByCurrency(Currency currency);
 }
