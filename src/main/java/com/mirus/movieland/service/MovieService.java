@@ -1,7 +1,6 @@
 package com.mirus.movieland.service;
 
 import com.mirus.movieland.entity.Currency;
-import com.mirus.movieland.entity.CurrencyRate;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.jdbc.SortParameters;
 
