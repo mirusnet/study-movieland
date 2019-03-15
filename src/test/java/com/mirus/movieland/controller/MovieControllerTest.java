@@ -1,6 +1,10 @@
 package com.mirus.movieland.controller;
 
+import com.mirus.movieland.entity.Country;
+import com.mirus.movieland.entity.Genre;
 import com.mirus.movieland.entity.Movie;
+import com.mirus.movieland.entity.Review;
+import com.mirus.movieland.entity.User;
 import com.mirus.movieland.repository.jdbc.SortParameters;
 import com.mirus.movieland.service.MovieService;
 import org.junit.Before;
@@ -23,6 +27,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,6 +40,8 @@ public class MovieControllerTest {
     private MockMvc mockMvc;
 
     private List<Movie> movies;
+
+    private Movie movieWithDetails = new Movie();
 
     @Autowired
     private MovieService movieService;
@@ -66,6 +73,27 @@ public class MovieControllerTest {
         movie1.setYearOfRelease("1986");
 
         movies = Arrays.asList(movie, movie1);
+
+        movieWithDetails.setId(48);
+        movieWithDetails.setNameNative("native");
+        movieWithDetails.setNameRussian("russian");
+        movieWithDetails.setDescription("description");
+        movieWithDetails.setRating(48.48);
+        movieWithDetails.setPrice(48.48);
+        movieWithDetails.setYearOfRelease("1986");
+
+        Country country0 = new Country(0, "USA");
+        Country country1 = new Country(1, "Canada");
+
+        Genre genre0 = new Genre(0, "Comedy");
+        Genre genre1 = new Genre(1, "Detective");
+
+        User user = new User(0, "Anonimous", "an@db.com", "password");
+        Review review = new Review(0, "SomeText", user);
+
+        movieWithDetails.setCountries(Arrays.asList(country0, country1));
+        movieWithDetails.setGenres(Arrays.asList(genre0, genre1));
+        movieWithDetails.setReviews(Arrays.asList(review));
     }
 
     @Test
@@ -205,5 +233,39 @@ public class MovieControllerTest {
                 .andExpect(jsonPath("$[1].price", is(49.49)))
                 .andExpect(jsonPath("$[1].rating", is(49.49)))
                 .andExpect(jsonPath("$[1].yearOfRelease", is("1986")));
+    }
+
+    @Test
+    public void testMovieById() throws Exception {
+        when(movieService.findById(48)).thenReturn(movieWithDetails);
+
+        mockMvc.perform(get("/movie/48"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andExpect(jsonPath("$.id", is(48)))
+                .andExpect(jsonPath("$.nameNative", is("native")))
+                .andExpect(jsonPath("$.nameRussian", is("russian")))
+                .andExpect(jsonPath("$.price", is(48.48)))
+                .andExpect(jsonPath("$.rating", is(48.48)))
+                .andExpect(jsonPath("$.yearOfRelease", is("1986")))
+
+                .andExpect(jsonPath("$.genres", hasSize(2)))
+                .andExpect(jsonPath("$.countries", hasSize(2)))
+                .andExpect(jsonPath("$.reviews", hasSize(1)))
+
+                .andExpect(jsonPath("$.genres[0].id", is(0)))
+                .andExpect(jsonPath("$.genres[0].name", is("Comedy")))
+                .andExpect(jsonPath("$.genres[1].id", is(1)))
+                .andExpect(jsonPath("$.genres[1].name", is("Detective")))
+
+                .andExpect(jsonPath("$.reviews[0].id", is(0)))
+                .andExpect(jsonPath("$.reviews[0].text", is("SomeText")))
+
+                .andExpect(jsonPath("$.reviews[0].user.id", is(0)))
+                .andExpect(jsonPath("$.reviews[0].user.name", is("Anonimous")))
+                .andExpect(jsonPath("$.reviews[0].user.email", is("an@db.com")))
+
+                .andExpect(jsonPath("$.reviews[0].user.password").doesNotExist());
     }
 }

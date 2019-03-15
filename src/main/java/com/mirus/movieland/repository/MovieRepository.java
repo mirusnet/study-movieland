@@ -15,4 +15,6 @@ public interface MovieRepository {
     List<Movie> findByGenreId(int genreId);
 
     List<Movie> findByGenreId(int genreId, SortParameters sortParameters);
+
+    Movie findById(int id);
 }

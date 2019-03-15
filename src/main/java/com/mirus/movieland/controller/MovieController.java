@@ -1,6 +1,7 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.data.dto.MovieDto;
+import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.jdbc.SortParameters;
 import com.mirus.movieland.service.MovieService;
 import com.mirus.movieland.service.util.MovieToMovieDtoConverter;
@@ -58,6 +59,12 @@ public class MovieController {
 
         return movieToMovieDtoConverter.convert(movieService.findByGenreId(genreId));
     }
+
+    @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Movie getMovieById(@PathVariable int id) {
+        return movieService.findById(id);
+    }
+
 
     private static Optional<SortParameters> buildSortParameters(String ratingSortOrder, String priceSortOrder) {
         if (ratingSortOrder != null) {
