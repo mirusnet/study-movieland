@@ -1,14 +1,13 @@
 package com.mirus.movieland.service.impl;
 
 import com.mirus.movieland.entity.Currency;
-import com.mirus.movieland.entity.CurrencyRate;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.CountryRepository;
-import com.mirus.movieland.repository.CurrencyRateRepository;
 import com.mirus.movieland.repository.GenreRepository;
 import com.mirus.movieland.repository.MovieRepository;
 import com.mirus.movieland.repository.ReviewRepository;
 import com.mirus.movieland.repository.jdbc.SortParameters;
+import com.mirus.movieland.service.CurrencyService;
 import com.mirus.movieland.service.MovieService;
 import com.mirus.movieland.service.util.CurrencyConverter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class MovieServiceImpl implements MovieService {
     private final CountryRepository countryRepository;
     private final GenreRepository genreRepository;
     private final ReviewRepository reviewRepository;
-    private final CurrencyRateRepository currencyRateRepository;
+    private final CurrencyService currencyService;
 
     @Value("${movie.random.limit:3}")
     private int randomLimit;
@@ -68,7 +67,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(int id, Currency currency) {
         Movie movie = findById(id);
-        movie.setPrice(CurrencyConverter.convert(movie.getPrice(), currencyRateRepository.findByCurrency(currency).getRate()));
+        Double rate = currencyService.getRateByCurrency(currency).getRate();
+        movie.setPrice(CurrencyConverter.convert(movie.getPrice(), rate));
         return movie;
     }
 
