@@ -13,6 +13,10 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -23,7 +27,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private final RestTemplate restTemplate;
 
-    private volatile Map<Currency, CurrencyRate> currencyRates;
+    private Map<Currency, CurrencyRate> currencyRates;
 
     @Value("${currency.nbu.url}")
     private String url;
@@ -31,20 +35,35 @@ public class CurrencyServiceImpl implements CurrencyService {
     private static final Predicate<CurrencyRate> isEUR = c -> Currency.EUR.name().equals(c.getCode());
     private static final Predicate<CurrencyRate> isUSD = c -> Currency.USD.name().equals(c.getCode());
 
+    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private final Lock readLock = readWriteLock.readLock();
+    private final Lock writeLock = readWriteLock.writeLock();
+
     @Override
     @PostConstruct
     @Scheduled(cron = "${currency.update.cron.expression}")
-    public synchronized void updateRates() {
-        this.currencyRates = new HashMap<>();
+    public void updateRates() {
 
-        Stream.of(restTemplate.getForObject(url, CurrencyRate[].class))
-                .filter(isEUR.or(isUSD))
-                .forEach(currencyRate -> currencyRates.put(Currency.fromValue(currencyRate.getCode()), currencyRate));
+        try {
+            writeLock.lock();
+            this.currencyRates = new HashMap<>();
+
+            Stream.of(restTemplate.getForObject(url, CurrencyRate[].class))
+                    .filter(isEUR.or(isUSD))
+                    .forEach(currencyRate -> currencyRates.put(Currency.fromValue(currencyRate.getCode()), currencyRate));
+        } finally {
+            writeLock.unlock();
+        }
     }
 
     @Override
-    public synchronized Double getRateByCurrency(Currency currency) {
-        return this.currencyRates.get(currency).getRate();
+    public Double getRateByCurrency(Currency currency) {
+        try {
+            readLock.lock();
+            return this.currencyRates.get(currency).getRate();
+        } finally {
+            readLock.unlock();
+        }
     }
 }
 
