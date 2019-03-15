@@ -20,7 +20,7 @@ public class MovieRowMapperTest {
         when(mockResultSet.getString("russian_name")).thenReturn("russianName");
         when(mockResultSet.getString("poster")).thenReturn("posterHttpPath");
         when(mockResultSet.getFloat("price")).thenReturn(48.48F);
-        when(mockResultSet.getFloat("raiting")).thenReturn(49.49F);
+        when(mockResultSet.getFloat("rating")).thenReturn(49.49F);
         when(mockResultSet.getString("year")).thenReturn("1986");
 
         MovieRowMapper movieRowMapper = new MovieRowMapper();
