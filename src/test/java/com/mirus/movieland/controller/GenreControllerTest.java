@@ -47,7 +47,7 @@ public class GenreControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         Genre genre = new Genre(0, "comedy");
-        Genre genre1 = new Genre(0, "detective");
+        Genre genre1 = new Genre(1, "detective");
 
         genres = Arrays.asList(genre, genre1);
     }
