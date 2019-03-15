@@ -1,6 +1,7 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.entity.Movie;
+import com.mirus.movieland.repository.jdbc.SortParameters;
 import com.mirus.movieland.service.MovieService;
 import org.junit.Before;
 import org.junit.Test;
@@ -138,6 +139,56 @@ public class MovieControllerTest {
         when(movieService.findByGenreId(1)).thenReturn(movies);
 
         mockMvc.perform(get("/movie/genre/1"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$", hasSize(2)))
+
+                .andExpect(jsonPath("$[0].id", is(48)))
+                .andExpect(jsonPath("$[0].nameNative", is("native")))
+                .andExpect(jsonPath("$[0].nameRussian", is("russian")))
+                .andExpect(jsonPath("$[0].price", is(48.48)))
+                .andExpect(jsonPath("$[0].rating", is(48.48)))
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1986")))
+
+                .andExpect(jsonPath("$[1].id", is(49)))
+                .andExpect(jsonPath("$[1].nameNative", is("native_two")))
+                .andExpect(jsonPath("$[1].nameRussian", is("russian_two")))
+                .andExpect(jsonPath("$[1].price", is(49.49)))
+                .andExpect(jsonPath("$[1].rating", is(49.49)))
+                .andExpect(jsonPath("$[1].yearOfRelease", is("1986")));
+    }
+
+    @Test
+    public void testGetAllMoviesWithRatingSorting() throws Exception {
+        SortParameters sortParameters = new SortParameters("rating", SortParameters.SortDirection.fromValue("desc"));
+        when(movieService.findAll(sortParameters)).thenReturn(movies);
+
+        mockMvc.perform(get("/movie?rating=desc"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$", hasSize(2)))
+
+                .andExpect(jsonPath("$[0].id", is(48)))
+                .andExpect(jsonPath("$[0].nameNative", is("native")))
+                .andExpect(jsonPath("$[0].nameRussian", is("russian")))
+                .andExpect(jsonPath("$[0].price", is(48.48)))
+                .andExpect(jsonPath("$[0].rating", is(48.48)))
+                .andExpect(jsonPath("$[0].yearOfRelease", is("1986")))
+
+                .andExpect(jsonPath("$[1].id", is(49)))
+                .andExpect(jsonPath("$[1].nameNative", is("native_two")))
+                .andExpect(jsonPath("$[1].nameRussian", is("russian_two")))
+                .andExpect(jsonPath("$[1].price", is(49.49)))
+                .andExpect(jsonPath("$[1].rating", is(49.49)))
+                .andExpect(jsonPath("$[1].yearOfRelease", is("1986")));
+    }
+
+    @Test
+    public void testGetAllMoviesWithPriceSorting() throws Exception {
+        SortParameters sortParameters = new SortParameters("price", SortParameters.SortDirection.fromValue("asc"));
+        when(movieService.findAll(sortParameters)).thenReturn(movies);
+
+        mockMvc.perform(get("/movie?price=asc"))
+                .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$", hasSize(2)))
 
