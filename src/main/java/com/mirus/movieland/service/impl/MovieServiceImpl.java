@@ -1,22 +1,20 @@
 package com.mirus.movieland.service.impl;
 
-import com.mirus.movieland.entity.Country;
-import com.mirus.movieland.entity.Genre;
+import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
-import com.mirus.movieland.entity.Review;
 import com.mirus.movieland.repository.CountryRepository;
 import com.mirus.movieland.repository.GenreRepository;
 import com.mirus.movieland.repository.MovieRepository;
 import com.mirus.movieland.repository.ReviewRepository;
 import com.mirus.movieland.repository.jdbc.SortParameters;
+import com.mirus.movieland.service.CurrencyService;
 import com.mirus.movieland.service.MovieService;
+import com.mirus.movieland.service.util.CurrencyConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +24,7 @@ public class MovieServiceImpl implements MovieService {
     private final CountryRepository countryRepository;
     private final GenreRepository genreRepository;
     private final ReviewRepository reviewRepository;
+    private final CurrencyService currencyService;
 
     @Value("${movie.random.limit:3}")
     private int randomLimit;
@@ -62,6 +61,14 @@ public class MovieServiceImpl implements MovieService {
         movie.setCountries(countryRepository.findByMovieId(id));
         movie.setGenres(genreRepository.findByMovieId(id));
         movie.setReviews(reviewRepository.findByMovieId(id));
+        return movie;
+    }
+
+    @Override
+    public Movie findById(int id, Currency currency) {
+        Movie movie = findById(id);
+        Double rate = currencyService.getRateByCurrency(currency);
+        movie.setPrice(CurrencyConverter.convert(movie.getPrice(), rate));
         return movie;
     }
 }

@@ -1,6 +1,7 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.data.dto.MovieDto;
+import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.jdbc.SortParameters;
 import com.mirus.movieland.service.MovieService;
@@ -61,7 +62,10 @@ public class MovieController {
     }
 
     @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Movie getMovieById(@PathVariable int id) {
+    public Movie getMovieById(@PathVariable int id, @RequestParam(value = "currency", required = false) String currency) {
+        if (currency != null) {
+            return movieService.findById(id, Currency.fromValue(currency));
+        }
         return movieService.findById(id);
     }
 

@@ -15,3 +15,10 @@ genre:
   clean:
     cron:
       expression: 0 0 0/4 * * *
+
+currency:
+  update:
+    cron:
+      expression: 0 0 8 * * *
+  nbu:
+    url: https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json

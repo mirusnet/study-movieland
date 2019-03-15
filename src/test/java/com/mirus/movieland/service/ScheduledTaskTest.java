@@ -22,4 +22,11 @@ public class ScheduledTaskTest {
         Assert.assertEquals("0 0 0/4 * * *", genreCacheCleanCronExpression);
     }
 
+    @Value("${currency.update.cron.expression}")
+    private String currencyUpdateCronExpression;
+
+    @Test
+    public void testCurrencyUpdateCronPresense() {
+        Assert.assertEquals("0 0 8 * * *", currencyUpdateCronExpression);
+    }
 }

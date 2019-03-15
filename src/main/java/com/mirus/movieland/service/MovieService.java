@@ -1,5 +1,7 @@
 package com.mirus.movieland.service;
 
+import com.mirus.movieland.entity.Currency;
+import com.mirus.movieland.entity.CurrencyRate;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.jdbc.SortParameters;
 
@@ -17,4 +19,6 @@ public interface MovieService {
     List<Movie> findByGenreId(int genreId, SortParameters sortParameters);
 
     Movie findById(int id);
+
+    Movie findById(int id, Currency currency);
 }
