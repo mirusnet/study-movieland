@@ -10,6 +10,10 @@ db:
 movie:
   random:
     limit: 3
+  parallel:
+    enrichment:
+      enabled: true
+      timeout: 5
 
 genre:
   clean:

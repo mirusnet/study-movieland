@@ -41,5 +41,10 @@
 
     <task:annotation-driven/>
 
-    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+
+    <bean id="threadExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean">
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="10"/>
+    </bean>
 </beans>

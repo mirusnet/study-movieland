@@ -1,6 +1,7 @@
 package com.mirus.movieland.service.impl;
 
 import com.mirus.movieland.entity.Genre;
+import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.GenreRepository;
 import com.mirus.movieland.service.GenreService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public List<Genre> findByMovieId(int id) {
         return genreRepository.findByMovieId(id);
+    }
+
+    @Override
+    public void enrich(Movie movie) {
+        movie.setGenres(findByMovieId(movie.getId()));
     }
 }

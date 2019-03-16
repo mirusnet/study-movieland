@@ -11,14 +11,17 @@ import com.mirus.movieland.service.CountryService;
 import com.mirus.movieland.service.CurrencyService;
 import com.mirus.movieland.service.GenreService;
 import com.mirus.movieland.service.MovieService;
+import com.mirus.movieland.service.ParallelMovieEnrichmentService;
 import com.mirus.movieland.service.ReviewService;
 import com.mirus.movieland.service.util.CurrencyConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
@@ -28,9 +31,13 @@ public class MovieServiceImpl implements MovieService {
     private final GenreService genreService;
     private final ReviewService reviewService;
     private final CurrencyService currencyService;
+    private final ParallelMovieEnrichmentService parallelMovieEnrichmentService;
 
     @Value("${movie.random.limit:3}")
     private int randomLimit;
+
+    @Value("${movie.parallel.enrichment.enabled:false}")
+    private boolean isParallelEnrichmentEnabled;
 
     @Override
     public List<Movie> findAll() {
@@ -61,9 +68,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(int id) {
         Movie movie = movieRepository.findById(id);
-        movie.setCountries(countryService.findByMovieId(id));
-        movie.setGenres(genreService.findByMovieId(id));
-        movie.setReviews(reviewService.findByMovieId(id));
+        if (isParallelEnrichmentEnabled) {
+            log.info("Using parallel movie enrichment service");
+            parallelMovieEnrichmentService.enrich(movie);
+        } else {
+            log.info("Using default movie enrichment service");
+            defaultEnrichment(movie);
+        }
+
         return movie;
     }
 
@@ -73,5 +85,11 @@ public class MovieServiceImpl implements MovieService {
         Double rate = currencyService.getRateByCurrency(currency);
         movie.setPrice(CurrencyConverter.convert(movie.getPrice(), rate));
         return movie;
+    }
+
+    private void defaultEnrichment(Movie movie) {
+        countryService.enrich(movie);
+        genreService.enrich(movie);
+        reviewService.enrich(movie);
     }
 }
