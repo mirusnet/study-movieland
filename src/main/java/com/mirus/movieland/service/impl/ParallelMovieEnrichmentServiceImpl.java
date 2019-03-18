@@ -6,12 +6,10 @@ import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.Review;
 import com.mirus.movieland.service.CountryService;
 import com.mirus.movieland.service.GenreService;
-import com.mirus.movieland.service.MovieEnrichable;
-import com.mirus.movieland.service.ParallelMovieEnrichmentService;
+import com.mirus.movieland.service.MovieEnrichmentService;
 import com.mirus.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +22,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Service
+@Service("parallel")
 @RequiredArgsConstructor
-public class ParallelMovieEnrichmentServiceImpl implements ParallelMovieEnrichmentService {
+public class ParallelMovieEnrichmentServiceImpl implements MovieEnrichmentService {
 
     private final ExecutorService executorService;
     private final GenreService genreService;
@@ -40,21 +38,21 @@ public class ParallelMovieEnrichmentServiceImpl implements ParallelMovieEnrichme
 
         Runnable genre = () -> {
             List<Genre> genres = genreService.findByMovieId(movie.getId());
-            if (!Thread.currentThread().isInterrupted()) { //Future.cancell effect
+            if (!Thread.currentThread().isInterrupted()) {
                 movie.setGenres(genres);
             }
         };
 
         Runnable country = () -> {
             List<Country> countries = countryService.findByMovieId(movie.getId());
-            if (!Thread.currentThread().isInterrupted()) { //Future.cancell effect
+            if (!Thread.currentThread().isInterrupted()) {
                 movie.setCountries(countries);
             }
         };
 
         Runnable review = () -> {
             List<Review> reviews = reviewService.findByMovieId(movie.getId());
-            if (!Thread.currentThread().isInterrupted()) { //Future.cancell effect
+            if (!Thread.currentThread().isInterrupted()) {
                 movie.setReviews(reviews);
             }
         };
@@ -63,6 +61,7 @@ public class ParallelMovieEnrichmentServiceImpl implements ParallelMovieEnrichme
         List<Callable<Object>> callable = runnables.stream().map(Executors::callable).collect(Collectors.toList());
 
         try {
+            log.info("Using parallel movie enrichment service");
             executorService.invokeAll(callable, enrichmentTimeoutSeconds, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             log.debug("Parallel Movie enrichment was interrupted ", e);

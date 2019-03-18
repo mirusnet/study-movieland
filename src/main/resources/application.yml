@@ -12,7 +12,7 @@ movie:
     limit: 3
   parallel:
     enrichment:
-      enabled: true
+      enabled: false
       timeout: 5
 
 genre:
