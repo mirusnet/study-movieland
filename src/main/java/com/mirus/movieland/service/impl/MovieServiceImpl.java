@@ -2,35 +2,38 @@ package com.mirus.movieland.service.impl;
 
 import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
-import com.mirus.movieland.repository.CountryRepository;
-import com.mirus.movieland.repository.GenreRepository;
 import com.mirus.movieland.repository.MovieRepository;
-import com.mirus.movieland.repository.ReviewRepository;
 import com.mirus.movieland.repository.jdbc.SortParameters;
-import com.mirus.movieland.service.CountryService;
 import com.mirus.movieland.service.CurrencyService;
-import com.mirus.movieland.service.GenreService;
+import com.mirus.movieland.service.MovieEnrichmentService;
 import com.mirus.movieland.service.MovieService;
-import com.mirus.movieland.service.ReviewService;
 import com.mirus.movieland.service.util.CurrencyConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
-    private final CountryService countryService;
-    private final GenreService genreService;
-    private final ReviewService reviewService;
     private final CurrencyService currencyService;
+
+    private MovieEnrichmentService parallelMovieEnrichmentService;
+    private MovieEnrichmentService defaultMovieEnrichmentService;
+
 
     @Value("${movie.random.limit:3}")
     private int randomLimit;
+
+    @Value("${movie.parallel.enrichment.enabled:false}")
+    private boolean isParallelEnrichmentEnabled;
 
     @Override
     public List<Movie> findAll() {
@@ -61,9 +64,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(int id) {
         Movie movie = movieRepository.findById(id);
-        movie.setCountries(countryService.findByMovieId(id));
-        movie.setGenres(genreService.findByMovieId(id));
-        movie.setReviews(reviewService.findByMovieId(id));
+        if (isParallelEnrichmentEnabled) {
+            parallelMovieEnrichmentService.enrich(movie);
+        } else {
+            defaultMovieEnrichmentService.enrich(movie);
+        }
         return movie;
     }
 
@@ -73,5 +78,18 @@ public class MovieServiceImpl implements MovieService {
         Double rate = currencyService.getRateByCurrency(currency);
         movie.setPrice(CurrencyConverter.convert(movie.getPrice(), rate));
         return movie;
+    }
+
+
+    @Autowired
+    @Qualifier("parallel")
+    public void setParallelMovieEnrichmentService(MovieEnrichmentService parallelMovieEnrichmentService) {
+        this.parallelMovieEnrichmentService = parallelMovieEnrichmentService;
+    }
+
+    @Autowired
+    @Qualifier("default")
+    public void setDefaultMovieEnrichmentService(MovieEnrichmentService defaultMovieEnrichmentService) {
+        this.defaultMovieEnrichmentService = defaultMovieEnrichmentService;
     }
 }

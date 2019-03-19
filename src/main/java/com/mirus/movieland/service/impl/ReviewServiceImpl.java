@@ -1,5 +1,6 @@
 package com.mirus.movieland.service.impl;
 
+import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.Review;
 import com.mirus.movieland.repository.ReviewRepository;
 import com.mirus.movieland.service.ReviewService;
@@ -16,5 +17,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> findByMovieId(int id) {
         return reviewRepository.findByMovieId(id);
+    }
+
+    @Override
+    public void enrich(Movie movie) {
+        movie.setReviews(findByMovieId(movie.getId()));
     }
 }
