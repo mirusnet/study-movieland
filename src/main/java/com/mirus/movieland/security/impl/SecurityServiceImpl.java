@@ -7,7 +7,6 @@ import com.mirus.movieland.security.exception.UnauthorizedException;
 import com.mirus.movieland.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,10 +24,6 @@ public class SecurityServiceImpl implements SecurityService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     private Map<String, Session> sessions = new ConcurrentHashMap<>();
-
-    @Value("${security.session.duration:2}")
-    private int sessionDuriation;
-
 
     @Override
     public Session login(String email, String password) {
