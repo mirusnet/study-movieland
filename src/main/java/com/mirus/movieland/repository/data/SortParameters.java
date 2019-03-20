@@ -1,4 +1,4 @@
-package com.mirus.movieland.repository.jdbc;
+package com.mirus.movieland.repository.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

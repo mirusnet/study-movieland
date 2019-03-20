@@ -12,4 +12,8 @@
     <bean id="genreService" name="genreService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="com.mirus.movieland.service.GenreService"/>
     </bean>
+
+    <bean id="securityService" name="securityService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.mirus.movieland.security.SecurityService"/>
+    </bean>
 </beans>

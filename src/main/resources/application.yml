@@ -26,3 +26,9 @@ currency:
       expression: 0 0 8 * * *
   nbu:
     url: https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json
+
+security:
+  session:
+    clean:
+      cron:
+        expression: 0 * * * * *

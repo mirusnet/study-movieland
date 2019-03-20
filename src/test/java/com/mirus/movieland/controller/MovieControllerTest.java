@@ -6,7 +6,7 @@ import com.mirus.movieland.entity.Genre;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.Review;
 import com.mirus.movieland.entity.User;
-import com.mirus.movieland.repository.jdbc.SortParameters;
+import com.mirus.movieland.repository.data.SortParameters;
 import com.mirus.movieland.service.MovieService;
 import org.junit.Before;
 import org.junit.Test;

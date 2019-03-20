@@ -1,4 +1,4 @@
-package com.mirus.movieland.repository.jdbc;
+package com.mirus.movieland.repository.jdbc.impl;
 
 import com.mirus.movieland.entity.Genre;
 import com.mirus.movieland.repository.GenreRepository;
