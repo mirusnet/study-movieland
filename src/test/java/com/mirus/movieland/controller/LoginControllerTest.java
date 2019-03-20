@@ -52,7 +52,7 @@ public class LoginControllerTest {
 
         String userName = "name";
         String userEmail = "test@test.com";
-        String password = "test";
+        String password = "Alexander do not steal my code!!!";
 
         User user = new User(1, userName, userEmail, password);
 
