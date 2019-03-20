@@ -3,7 +3,8 @@ package com.mirus.movieland.controller;
 import com.mirus.movieland.data.dto.MovieDto;
 import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
-import com.mirus.movieland.repository.jdbc.SortParameters;
+import com.mirus.movieland.entity.User;
+import com.mirus.movieland.repository.data.SortParameters;
 import com.mirus.movieland.service.MovieService;
 import com.mirus.movieland.service.util.MovieToMovieDtoConverter;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,9 +30,14 @@ public class MovieController {
     private final MovieToMovieDtoConverter movieToMovieDtoConverter;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    List<MovieDto> getAll(
-            @RequestParam(value = "rating", required = false) String ratingSortOrder,
-            @RequestParam(value = "price", required = false) String priceSortOrder) {
+    List<MovieDto> getAll(HttpServletRequest request,
+                          @RequestParam(value = "rating", required = false) String ratingSortOrder,
+                          @RequestParam(value = "price", required = false) String priceSortOrder) {
+
+        User user = (User) request.getSession().getAttribute("user");
+        if (user != null) {
+            log.info("Logged user " + user.getEmail());
+        }
 
         Optional<SortParameters> sortParameters = buildSortParameters(ratingSortOrder, priceSortOrder);
 

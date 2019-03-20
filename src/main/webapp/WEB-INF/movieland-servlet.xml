@@ -15,4 +15,7 @@
 
     <mvc:annotation-driven/>
 
+    <mvc:interceptors>
+        <bean id="authInterceptor" class="com.mirus.movieland.security.interceptor.AuthInterceptor"/>
+    </mvc:interceptors>
 </beans>
