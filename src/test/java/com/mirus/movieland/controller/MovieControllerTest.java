@@ -7,6 +7,7 @@ import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.Review;
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.repository.data.SortParameters;
+import com.mirus.movieland.security.data.Role;
 import com.mirus.movieland.service.MovieService;
 import org.junit.Before;
 import org.junit.Test;
@@ -89,8 +90,8 @@ public class MovieControllerTest {
         Genre genre0 = new Genre(0, "Comedy");
         Genre genre1 = new Genre(1, "Detective");
 
-        User user = new User(0, "Anonimous", "an@db.com", "password");
-        Review review = new Review(0, "SomeText", user);
+        User user = new User(0, "Anonimous", "an@db.com", Role.ANONYMOUS, "password");
+        Review review = new Review(0, "SomeText", user, new Movie());
 
         movieWithDetails.setCountries(Arrays.asList(country0, country1));
         movieWithDetails.setGenres(Arrays.asList(genre0, genre1));

@@ -20,6 +20,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     private static final String GET_ALL_REVIEWS_BY_MOVIE_ID = "select" +
             " m.id as movie_id, u.id as user_id, u.name, u.email, r.id as review_id, r.text" +
             " from movie m join review r join user u on m.id = r.movieid and r.userid = u.id where m.id = ?";
+    private static final String INSERT_REVIEW = "insert into review(text, userid, movieid) values(?, ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -27,5 +28,10 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public List<Review> findByMovieId(int id) {
         return jdbcTemplate.query(GET_ALL_REVIEWS_BY_MOVIE_ID, REVIEW_ROW_MAPPER, id);
+    }
+
+    @Override
+    public void save(Review review) {
+        jdbcTemplate.update(INSERT_REVIEW, review.getText(), review.getUser().getId(), review.getMovie().getId());
     }
 }

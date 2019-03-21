@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mirus.movieland.data.dto.LoginRequestDto;
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.security.SecurityService;
+import com.mirus.movieland.security.data.Role;
 import com.mirus.movieland.security.data.Session;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class LoginControllerTest {
         String userEmail = "test@test.com";
         String password = "Alexander do not steal my code!!!";
 
-        User user = new User(1, userName, userEmail, password);
+        User user = new User(1, userName, userEmail, Role.ANONYMOUS, password);
 
         String request = objectMapper.writeValueAsString(new LoginRequestDto(userEmail, password));
         when(securityService.login(userEmail, password)).thenReturn(new Session(user));
