@@ -23,4 +23,9 @@ public class CountryServiceImpl implements CountryService {
     public void enrich(Movie movie) {
         movie.setCountries(findByMovieId(movie.getId()));
     }
+
+    @Override
+    public List<Country> findAll() {
+        return countryRepository.findAll();
+    }
 }

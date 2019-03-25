@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CountryRepository {
     List<Country> findByMovieId(int id);
+
+    List<Country> findAll();
 }

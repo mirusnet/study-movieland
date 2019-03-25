@@ -16,4 +16,8 @@
     <bean id="securityService" name="securityService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="com.mirus.movieland.security.SecurityService"/>
     </bean>
+
+    <bean id="countryService" name="countryService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.mirus.movieland.service.CountryService"/>
+    </bean>
 </beans>
