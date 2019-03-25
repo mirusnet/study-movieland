@@ -7,6 +7,7 @@ import com.mirus.movieland.security.data.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,7 +45,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (handler instanceof HandlerMethod) {
             Method method = ((HandlerMethod) handler).getMethod();
             if (method.isAnnotationPresent(Secured.class)) {
-                return Arrays.asList(method.getAnnotation(Secured.class).value()).contains(user.getRole());
+                boolean allowed = Arrays.asList(method.getAnnotation(Secured.class).value()).contains(user.getRole());
+                if (!allowed) {
+                    log.warn("User " + user.getEmail() + " is not allowed to access " + request.getRequestURI());
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                }
+                return allowed;
             }
         }
 

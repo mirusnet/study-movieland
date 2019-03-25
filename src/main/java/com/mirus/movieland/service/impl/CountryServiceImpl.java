@@ -28,4 +28,14 @@ public class CountryServiceImpl implements CountryService {
     public List<Country> findAll() {
         return countryRepository.findAll();
     }
+
+    @Override
+    public void deleteMappingByMovieId(int movieId) {
+        countryRepository.deleteMappingByMovieId(movieId);
+    }
+
+    @Override
+    public void insertMappingByMovieId(int movieId, int[] countryIds) {
+        countryRepository.insertMappingByMovieId(movieId, countryIds);
+    }
 }

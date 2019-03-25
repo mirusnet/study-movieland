@@ -8,4 +8,8 @@ public interface GenreService extends MovieEnrichable{
     List<Genre> findAll();
 
     List<Genre> findByMovieId(int id);
+
+    void deleteMappingByMovieId(int movieId);
+
+    void insertMappingByMovieId(int movieId, int[] genreIds);
 }

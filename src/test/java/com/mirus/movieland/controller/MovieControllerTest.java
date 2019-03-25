@@ -29,6 +29,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -303,5 +305,17 @@ public class MovieControllerTest {
                 .andExpect(jsonPath("$.reviews[0].user.email", is("an@db.com")))
 
                 .andExpect(jsonPath("$.reviews[0].user.password").doesNotExist());
+    }
+
+    @Test
+    public void testAddMovieRequestSecurity() throws Exception {
+        mockMvc.perform(post("/movie/"))
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    public void testUpdateMovieRequestSecurity() throws Exception {
+        mockMvc.perform(put("/movie/48"))
+                .andExpect(status().is(401));
     }
 }

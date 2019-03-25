@@ -14,8 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Slf4j
 @RestController
@@ -27,9 +26,9 @@ public class ReviewController {
 
     @Secured(Role.USER)
     @PostMapping(path = "/review", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    void saveReview(HttpServletRequest request, @RequestBody ReviewDto reviewDto) {
-        User user = (User) request.getSession().getAttribute("user");
-        Movie movie = movieService.findById(reviewDto.getMovieId());
+    void saveReview(@SessionAttribute("user") User user, @RequestBody ReviewDto reviewDto) {
+        Movie movie = new Movie();
+        movie.setId(reviewDto.getMovieId());
 
         Review review = new Review();
         review.setUser(user);
