@@ -23,4 +23,9 @@ public class ReviewServiceImpl implements ReviewService {
     public void enrich(Movie movie) {
         movie.setReviews(findByMovieId(movie.getId()));
     }
+
+    @Override
+    public void save(Review review) {
+        reviewRepository.save(review);
+    }
 }

@@ -1,6 +1,7 @@
 package com.mirus.movieland.repository.jdbc.mapper;
 
 import com.mirus.movieland.entity.User;
+import com.mirus.movieland.security.data.Role;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -13,7 +14,8 @@ public class UserRowMapper implements RowMapper<User> {
         user.setId(resultSet.getInt("id"));
         user.setEmail(resultSet.getString("email"));
         user.setName(resultSet.getString("name"));
-        user.setPassword(resultSet.getString("password")); //crypt
+        user.setRole(Role.valueOf(resultSet.getString("role")));
+        user.setPassword(resultSet.getString("password"));
         return user;
     }
 }
