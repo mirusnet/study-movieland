@@ -3,13 +3,9 @@ package com.mirus.movieland.service.impl;
 import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.data.SortParameters;
-import com.mirus.movieland.service.CurrencyService;
 import com.mirus.movieland.service.MovieEnrichmentService;
 import com.mirus.movieland.service.MovieService;
-import com.mirus.movieland.service.util.CurrencyConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class CachedMovieServiceImpl implements MovieService {
     private final MovieService movieService;
-    private final CurrencyService currencyService;
-    private MovieEnrichmentService movieEnrichmentService;
+    private final MovieEnrichmentService movieEnrichmentService;
 
     private Map<Integer, SoftReference<Movie>> movieCache = new ConcurrentHashMap<>();
 
@@ -55,15 +50,13 @@ public class CachedMovieServiceImpl implements MovieService {
 
     @Override
     public Movie findById(int id) {
-        return movieCache.computeIfAbsent(id, (key) -> new SoftReference<>(movieService.findById(key))).get();
+        Movie movie = movieCache.computeIfAbsent(id, (key) -> new SoftReference<>(movieService.findById(key))).get();
+        return new Movie(movie);
     }
 
     @Override
     public Movie findById(int id, Currency currency) {
-        Movie movie = movieService.findById(id);
-        Double rate = currencyService.getRateByCurrency(currency);
-        movie.setPrice(CurrencyConverter.convert(movie.getPrice(), rate));
-        return movie;
+        return movieService.findById(id, currency);
     }
 
     @Override
@@ -78,14 +71,9 @@ public class CachedMovieServiceImpl implements MovieService {
 
     @Override
     public Movie update(Movie movie, int[] genreIds, int[] contryIds) {
-        movieService.update(movie, genreIds, contryIds);
-        movieEnrichmentService.enrich(movie);
-        return movieCache.computeIfPresent(movie.getId(), (key, oldRef) -> new SoftReference<>(movie)).get();
-    }
-
-    @Autowired
-    @Qualifier("default")
-    public void setMovieEnrichmentService(MovieEnrichmentService movieEnrichmentService) {
-        this.movieEnrichmentService = movieEnrichmentService;
+        Movie updatedMovie = movieService.update(movie, genreIds, contryIds);
+        movieEnrichmentService.enrich(updatedMovie);
+        SoftReference<Movie> softReference = movieCache.computeIfPresent(movie.getId(), (key, oldRef) -> new SoftReference<>(movie));
+        return (softReference == null) ? updatedMovie : softReference.get();
     }
 }
