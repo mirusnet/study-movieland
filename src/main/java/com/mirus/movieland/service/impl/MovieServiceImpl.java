@@ -4,7 +4,9 @@ import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.MovieRepository;
 import com.mirus.movieland.repository.data.SortParameters;
+import com.mirus.movieland.service.CountryService;
 import com.mirus.movieland.service.CurrencyService;
+import com.mirus.movieland.service.GenreService;
 import com.mirus.movieland.service.MovieEnrichmentService;
 import com.mirus.movieland.service.MovieService;
 import com.mirus.movieland.service.util.CurrencyConverter;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +27,8 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
     private final CurrencyService currencyService;
+    private final GenreService genreService;
+    private final CountryService countryService;
 
     private MovieEnrichmentService parallelMovieEnrichmentService;
     private MovieEnrichmentService defaultMovieEnrichmentService;
@@ -80,6 +85,32 @@ public class MovieServiceImpl implements MovieService {
         return movie;
     }
 
+    @Override
+    public Movie save(Movie movie) {
+        return movieRepository.save(movie);
+    }
+
+    @Override
+    @Transactional
+    public Movie save(Movie movie, int[] genreIds, int[] contryIds) {
+        Movie savedMovie = movieRepository.save(movie);
+        countryService.deleteMappingByMovieId(savedMovie.getId());
+        countryService.insertMappingByMovieId(savedMovie.getId(), contryIds);
+        genreService.deleteMappingByMovieId(savedMovie.getId());
+        genreService.insertMappingByMovieId(savedMovie.getId(), genreIds);
+        return savedMovie;
+    }
+
+    @Override
+    @Transactional
+    public Movie update(Movie movie, int[] genreIds, int[] contryIds) {
+        Movie savedMovie = movieRepository.update(movie);
+        countryService.deleteMappingByMovieId(savedMovie.getId());
+        countryService.insertMappingByMovieId(savedMovie.getId(), contryIds);
+        genreService.deleteMappingByMovieId(savedMovie.getId());
+        genreService.insertMappingByMovieId(savedMovie.getId(), genreIds);
+        return savedMovie;
+    }
 
     @Autowired
     @Qualifier("parallel")

@@ -26,6 +26,16 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    public void deleteMappingByMovieId(int movieId) {
+        genreRepository.deleteMappingByMovieId(movieId);
+    }
+
+    @Override
+    public void insertMappingByMovieId(int movieId, int[] genreIds) {
+        genreRepository.insertMappingByMovieId(movieId, genreIds);
+    }
+
+    @Override
     public void enrich(Movie movie) {
         movie.setGenres(findByMovieId(movie.getId()));
     }

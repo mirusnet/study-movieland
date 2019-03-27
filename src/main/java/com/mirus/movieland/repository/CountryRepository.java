@@ -8,4 +8,8 @@ public interface CountryRepository {
     List<Country> findByMovieId(int id);
 
     List<Country> findAll();
+
+    void deleteMappingByMovieId(int movieId);
+
+    void insertMappingByMovieId(int movieId, int[] countryIds);
 }

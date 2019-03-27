@@ -20,4 +20,10 @@ public interface MovieService {
     Movie findById(int id);
 
     Movie findById(int id, Currency currency);
+
+    Movie save(Movie movie);
+
+    Movie save(Movie movie, int[] genreIds, int[] contryIds);
+
+    Movie update(Movie movie, int[] genreIds, int[] contryIds);
 }

@@ -1,10 +1,14 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.data.dto.MovieDto;
+import com.mirus.movieland.data.dto.UpdateMovieDto;
+import com.mirus.movieland.data.dto.util.MovieDtoConverter;
 import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.repository.data.SortParameters;
+import com.mirus.movieland.security.annotation.access.Secured;
+import com.mirus.movieland.security.data.Role;
 import com.mirus.movieland.service.MovieService;
 import com.mirus.movieland.service.util.MovieToMovieDtoConverter;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,6 +83,20 @@ public class MovieController {
         return movieService.findById(id);
     }
 
+    @Secured(Role.ADMIN)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    void add(@RequestBody UpdateMovieDto movieDto) {
+        Movie movie = MovieDtoConverter.convert(movieDto);
+        movieService.save(movie, movieDto.getGenres(), movieDto.getCountries());
+    }
+
+    @Secured(Role.ADMIN)
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void update(@PathVariable("id") int id, @RequestBody UpdateMovieDto movieDto) {
+        Movie movie = MovieDtoConverter.convert(movieDto);
+        movie.setId(id);
+        movieService.update(movie, movieDto.getGenres(), movieDto.getCountries());
+    }
 
     private static Optional<SortParameters> buildSortParameters(String ratingSortOrder, String priceSortOrder) {
         if (ratingSortOrder != null) {

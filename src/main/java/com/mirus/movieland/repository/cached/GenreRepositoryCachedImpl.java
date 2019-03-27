@@ -33,6 +33,16 @@ public class GenreRepositoryCachedImpl implements GenreRepository {
         return genreRepository.findByMovieId(id);
     }
 
+    @Override
+    public void deleteMappingByMovieId(int movieId) {
+        genreRepository.deleteMappingByMovieId(movieId);
+    }
+
+    @Override
+    public void insertMappingByMovieId(int movieId, int[] genreIds) {
+        genreRepository.insertMappingByMovieId(movieId, genreIds);
+    }
+
     @PostConstruct
     @Scheduled(cron = "${genre.clean.cron.expression}")
     public void refresh() {
