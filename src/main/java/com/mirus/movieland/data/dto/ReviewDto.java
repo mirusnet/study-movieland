@@ -1,4 +1,4 @@
-package com.mirus.movieland.entity;
+package com.mirus.movieland.data.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,12 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Review {
-    private int id;
+@NoArgsConstructor
+public class ReviewDto {
+    private int movieId;
     private String text;
-
-    private User user;
-    private Movie movie;
 }

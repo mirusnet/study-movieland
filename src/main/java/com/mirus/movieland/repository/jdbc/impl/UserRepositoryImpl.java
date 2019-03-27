@@ -17,7 +17,7 @@ import java.util.Optional;
 public class UserRepositoryImpl implements UserRepository {
 
     private static final UserRowMapper USER_ROM_MAPPER = new UserRowMapper();
-    private static final String GET_USER_BY_ID_SQL = "select id, name, email, password from user where email = ?";
+    private static final String GET_USER_BY_ID_SQL = "select id, name, email, role, password from user where email = ?";
 
     private final JdbcTemplate jdbcTemplate;
 

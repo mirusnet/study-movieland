@@ -49,7 +49,7 @@ public class ParallelMovieEnrichmentServiceTest {
 
         when(genreService.findByMovieId(0)).thenReturn(Arrays.asList(new Genre(0, "comedy")));
         when(countryService.findByMovieId(0)).thenReturn(Arrays.asList(new Country(0, "USA")));
-        when(reviewService.findByMovieId(0)).thenReturn(Arrays.asList(new Review(0, "hlamAneKino", new User())));
+        when(reviewService.findByMovieId(0)).thenReturn(Arrays.asList(new Review(0, "hlamAneKino", new User(), new Movie())));
 
         Movie movie = new Movie();
         movie.setId(0);
@@ -79,7 +79,7 @@ public class ParallelMovieEnrichmentServiceTest {
         });
 
         when(countryService.findByMovieId(0)).thenReturn(Arrays.asList(new Country(0, "USA")));
-        when(reviewService.findByMovieId(0)).thenReturn(Arrays.asList(new Review(0, "hlamAneKino", new User())));
+        when(reviewService.findByMovieId(0)).thenReturn(Arrays.asList(new Review(0, "hlamAneKino", new User(), new Movie())));
 
         Movie movie = new Movie();
         movie.setId(0);

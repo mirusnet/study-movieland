@@ -21,10 +21,17 @@ public class CountryRepositoryImpl implements CountryRepository {
             " join movie_country mc join country c on m.id = mc.movieid and mc.countryid = c.id" +
             " where m.id = ? order by c.name;";
 
+    private static final String GET_ALL = "select id, name from country";
+
     private final JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Country> findByMovieId(int id) {
         return jdbcTemplate.query(GET_ALL_BY_MOVIE_ID, COUNTRY_ROW_MAPPER, id);
+    }
+
+    @Override
+    public List<Country> findAll() {
+        return jdbcTemplate.query(GET_ALL, COUNTRY_ROW_MAPPER);
     }
 }
