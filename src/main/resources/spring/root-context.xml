@@ -19,7 +19,7 @@
     <context:property-placeholder properties-ref="properties"/>
 
     <bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="driverClassName" value="${db.driver}"/>
         <property name="initialSize" value="${db.initialSize:3}"/>
         <property name="maxTotal" value="${db.maxTotal:12}"/>
         <property name="maxIdle" value="${db.maxIdle:8}"/>
