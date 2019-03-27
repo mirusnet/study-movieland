@@ -4,9 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-
     <bean id="movieService" name="movieService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="com.mirus.movieland.service.MovieService"/>
+        <qualifier value="movieServiceMock"/>
     </bean>
 
     <bean id="genreService" name="genreService" class="org.mockito.Mockito" factory-method="mock">
