@@ -1,5 +1,8 @@
 package com.mirus.movieland.service;
 
+import com.mirus.movieland.config.RootConfig;
+import com.mirus.movieland.config.TestContext;
+import com.mirus.movieland.config.WebConfig;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:spring/root-context.xml"})
+@ContextConfiguration(classes = {RootConfig.class})
 public class ScheduledTaskTest {
 
     @Value("${genre.clean.cron.expression}")

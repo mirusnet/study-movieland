@@ -1,5 +1,8 @@
 package com.mirus.movieland.controller;
 
+import com.mirus.movieland.config.RootConfig;
+import com.mirus.movieland.config.TestContext;
+import com.mirus.movieland.config.WebConfig;
 import com.mirus.movieland.entity.Country;
 import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Genre;
@@ -39,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:testContext.xml", "file:src/main/webapp/WEB-INF/movieland-servlet.xml", "classpath:spring/root-context.xml"})
+@ContextConfiguration(classes = {TestContext.class, WebConfig.class, RootConfig.class})
 public class MovieControllerTest {
 
     private MockMvc mockMvc;
