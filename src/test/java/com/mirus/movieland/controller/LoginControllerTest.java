@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {TestContext.class, WebConfig.class, RootConfig.class})
+@ContextConfiguration(classes = {RootConfig.class, WebConfig.class, TestContext.class})
 public class LoginControllerTest {
 
     private MockMvc mockMvc;

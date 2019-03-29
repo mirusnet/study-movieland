@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {RootConfig.class})
+@ContextConfiguration(classes = {RootConfig.class, TestContext.class})
 public class ParallelMovieEnrichmentServiceTest {
 
     @Autowired
@@ -73,7 +73,6 @@ public class ParallelMovieEnrichmentServiceTest {
                 reviewService
         );
         parallelMovieEnrichmentService.setEnrichmentTimeoutSeconds(2);
-
 
 
         when(genreService.findByMovieId(0)).thenAnswer((Answer<List<Genre>>) invocation -> {
