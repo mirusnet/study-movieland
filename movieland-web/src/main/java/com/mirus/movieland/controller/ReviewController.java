@@ -1,7 +1,7 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.data.Role;
-import com.mirus.movieland.data.dto.ReviewDto;
+import com.mirus.movieland.dto.ReviewDto;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.Review;
 import com.mirus.movieland.entity.User;

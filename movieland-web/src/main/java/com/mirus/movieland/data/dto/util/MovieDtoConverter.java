@@ -1,6 +1,6 @@
 package com.mirus.movieland.data.dto.util;
 
-import com.mirus.movieland.data.dto.UpdateMovieDto;
+import com.mirus.movieland.dto.UpdateMovieDto;
 import com.mirus.movieland.entity.Movie;
 
 public class MovieDtoConverter {

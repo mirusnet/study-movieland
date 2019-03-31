@@ -6,7 +6,7 @@ import com.mirus.movieland.config.TestContext;
 import com.mirus.movieland.config.WebConfig;
 import com.mirus.movieland.data.Role;
 import com.mirus.movieland.data.Session;
-import com.mirus.movieland.data.dto.LoginRequestDto;
+import com.mirus.movieland.dto.LoginRequestDto;
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.security.SecurityService;
 import org.junit.Before;

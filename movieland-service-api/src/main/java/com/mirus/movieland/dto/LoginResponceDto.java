@@ -1,4 +1,4 @@
-package com.mirus.movieland.data.dto;
+package com.mirus.movieland.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

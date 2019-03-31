@@ -1,6 +1,6 @@
 package com.mirus.movieland.service.util;
 
-import com.mirus.movieland.data.dto.MovieDto;
+import com.mirus.movieland.dto.MovieDto;
 import com.mirus.movieland.entity.Movie;
 import org.springframework.stereotype.Service;
 

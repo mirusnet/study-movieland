@@ -1,8 +1,8 @@
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.data.Session;
-import com.mirus.movieland.data.dto.LoginRequestDto;
-import com.mirus.movieland.data.dto.LoginResponceDto;
+import com.mirus.movieland.dto.LoginRequestDto;
+import com.mirus.movieland.dto.LoginResponceDto;
 import com.mirus.movieland.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

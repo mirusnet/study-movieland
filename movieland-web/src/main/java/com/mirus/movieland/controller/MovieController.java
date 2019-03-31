@@ -2,9 +2,9 @@ package com.mirus.movieland.controller;
 
 import com.mirus.movieland.data.Role;
 import com.mirus.movieland.data.SortParameters;
-import com.mirus.movieland.data.dto.MovieDto;
-import com.mirus.movieland.data.dto.UpdateMovieDto;
 import com.mirus.movieland.data.dto.util.MovieDtoConverter;
+import com.mirus.movieland.dto.MovieDto;
+import com.mirus.movieland.dto.UpdateMovieDto;
 import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.User;
