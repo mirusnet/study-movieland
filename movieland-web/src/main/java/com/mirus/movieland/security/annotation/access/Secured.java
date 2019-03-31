@@ -1,6 +1,7 @@
 package com.mirus.movieland.security.annotation.access;
 
-import com.mirus.movieland.security.data.Role;
+
+import com.mirus.movieland.data.Role;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

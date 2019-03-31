@@ -1,5 +1,6 @@
 package com.mirus.movieland.controller;
 
+import com.mirus.movieland.data.Role;
 import com.mirus.movieland.data.dto.MovieDto;
 import com.mirus.movieland.data.dto.UpdateMovieDto;
 import com.mirus.movieland.data.dto.util.MovieDtoConverter;
@@ -8,7 +9,6 @@ import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.repository.data.SortParameters;
 import com.mirus.movieland.security.annotation.access.Secured;
-import com.mirus.movieland.security.data.Role;
 import com.mirus.movieland.service.MovieService;
 import com.mirus.movieland.service.util.MovieToMovieDtoConverter;
 import lombok.RequiredArgsConstructor;

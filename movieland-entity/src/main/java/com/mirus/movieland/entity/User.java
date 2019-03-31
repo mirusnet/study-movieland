@@ -1,7 +1,7 @@
 package com.mirus.movieland.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mirus.movieland.security.data.Role;
+import com.mirus.movieland.data.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

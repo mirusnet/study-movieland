@@ -1,7 +1,7 @@
 package com.mirus.movieland.repository.jdbc.mapper;
 
+import com.mirus.movieland.data.Role;
 import com.mirus.movieland.entity.User;
-import com.mirus.movieland.security.data.Role;
 import org.junit.Test;
 
 import java.sql.ResultSet;

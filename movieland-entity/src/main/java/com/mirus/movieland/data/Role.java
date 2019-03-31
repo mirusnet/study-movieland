@@ -1,4 +1,4 @@
-package com.mirus.movieland.security.data;
+package com.mirus.movieland.data;
 
 public enum Role {
     ANONYMOUS, USER, ADMIN

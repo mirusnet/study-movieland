@@ -29,6 +29,7 @@
         </plugins>
     </build>
     <dependencies>
+
         <dependency>
             <groupId>com.mirus</groupId>
             <artifactId>movieland-entity</artifactId>
@@ -54,6 +55,9 @@
             <artifactId>movieland-service-default</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>

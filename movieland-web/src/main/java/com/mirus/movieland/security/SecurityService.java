@@ -1,7 +1,7 @@
 package com.mirus.movieland.security;
 
+import com.mirus.movieland.data.Session;
 import com.mirus.movieland.entity.User;
-import com.mirus.movieland.security.data.Session;
 
 import java.util.Optional;
 

@@ -1,8 +1,8 @@
 package com.mirus.movieland.security.impl;
 
+import com.mirus.movieland.data.Session;
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.security.SecurityService;
-import com.mirus.movieland.security.data.Session;
 import com.mirus.movieland.security.exception.UnauthorizedException;
 import com.mirus.movieland.service.UserService;
 import lombok.RequiredArgsConstructor;

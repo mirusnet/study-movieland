@@ -1,9 +1,9 @@
 package com.mirus.movieland.security.interceptor;
 
+import com.mirus.movieland.data.Role;
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.security.SecurityService;
 import com.mirus.movieland.security.annotation.access.Secured;
-import com.mirus.movieland.security.data.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;

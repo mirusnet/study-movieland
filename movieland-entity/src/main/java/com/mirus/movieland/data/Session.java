@@ -1,4 +1,4 @@
-package com.mirus.movieland.security.data;
+package com.mirus.movieland.data;
 
 import com.mirus.movieland.entity.User;
 import lombok.Getter;
