@@ -1,9 +1,9 @@
 package com.mirus.movieland.config;
 
-import com.mirus.movieland.security.SecurityService;
 import com.mirus.movieland.service.CountryService;
 import com.mirus.movieland.service.GenreService;
 import com.mirus.movieland.service.MovieService;
+import com.mirus.movieland.service.SecurityService;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

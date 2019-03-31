@@ -1,4 +1,4 @@
-package com.mirus.movieland.repository.cached;
+package com.mirus.movieland.service.cached;
 
 import com.mirus.movieland.entity.Genre;
 import com.mirus.movieland.repository.GenreRepository;

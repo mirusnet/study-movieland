@@ -1,8 +1,7 @@
-package com.mirus.movieland.repository.cached;
+package com.mirus.movieland.service.cached;
 
 import com.mirus.movieland.entity.Genre;
 import com.mirus.movieland.repository.GenreRepository;
-import com.mirus.movieland.service.cached.GenreRepositoryCachedImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

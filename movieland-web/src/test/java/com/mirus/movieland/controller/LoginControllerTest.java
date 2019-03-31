@@ -8,7 +8,7 @@ import com.mirus.movieland.data.Role;
 import com.mirus.movieland.data.Session;
 import com.mirus.movieland.dto.LoginRequestDto;
 import com.mirus.movieland.entity.User;
-import com.mirus.movieland.security.SecurityService;
+import com.mirus.movieland.service.SecurityService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

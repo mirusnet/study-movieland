@@ -1,10 +1,10 @@
-package com.mirus.movieland.security.impl;
+package com.mirus.movieland.service.impl;
 
-import com.mirus.movieland.data.Session;
 import com.mirus.movieland.entity.User;
-import com.mirus.movieland.security.SecurityService;
-import com.mirus.movieland.security.exception.UnauthorizedException;
+import com.mirus.movieland.data.Session;
+import com.mirus.movieland.service.SecurityService;
 import com.mirus.movieland.service.UserService;
+import com.mirus.movieland.service.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

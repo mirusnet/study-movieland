@@ -1,7 +1,7 @@
 package com.mirus.movieland.config;
 
-import com.mirus.movieland.security.SecurityService;
 import com.mirus.movieland.security.interceptor.AuthInterceptor;
+import com.mirus.movieland.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
