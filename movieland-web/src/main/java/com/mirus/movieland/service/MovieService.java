@@ -1,8 +1,8 @@
 package com.mirus.movieland.service;
 
+import com.mirus.movieland.data.SortParameters;
 import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
-import com.mirus.movieland.repository.data.SortParameters;
 
 import java.util.List;
 

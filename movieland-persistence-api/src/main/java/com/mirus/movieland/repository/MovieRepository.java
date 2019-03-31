@@ -1,7 +1,7 @@
 package com.mirus.movieland.repository;
 
+import com.mirus.movieland.data.SortParameters;
 import com.mirus.movieland.entity.Movie;
-import com.mirus.movieland.repository.data.SortParameters;
 
 import java.util.List;
 

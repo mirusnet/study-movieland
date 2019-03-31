@@ -2,7 +2,7 @@ package com.mirus.movieland.repository.jdbc;
 
 import static org.junit.Assert.*;
 
-import com.mirus.movieland.repository.data.SortParameters;
+import com.mirus.movieland.data.SortParameters;
 import org.junit.Test;
 
 public class SortParametersTest {

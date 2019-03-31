@@ -1,8 +1,8 @@
 package com.mirus.movieland.repository.jdbc.impl;
 
+import com.mirus.movieland.data.SortParameters;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.MovieRepository;
-import com.mirus.movieland.repository.data.SortParameters;
 import com.mirus.movieland.repository.jdbc.mapper.MovieRowMapper;
 import com.mirus.movieland.repository.jdbc.util.QueryBuilder;
 import lombok.RequiredArgsConstructor;

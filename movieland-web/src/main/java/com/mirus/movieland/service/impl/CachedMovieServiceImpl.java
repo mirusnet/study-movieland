@@ -1,8 +1,8 @@
 package com.mirus.movieland.service.impl;
 
+import com.mirus.movieland.data.SortParameters;
 import com.mirus.movieland.entity.Currency;
 import com.mirus.movieland.entity.Movie;
-import com.mirus.movieland.repository.data.SortParameters;
 import com.mirus.movieland.service.MovieEnrichmentService;
 import com.mirus.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
