@@ -1,8 +1,8 @@
-package com.mirus.movieland.repository.jdbc.impl;
+package com.mirus.movieland.jdbc.impl;
 
 import com.mirus.movieland.entity.Genre;
 import com.mirus.movieland.repository.GenreRepository;
-import com.mirus.movieland.repository.jdbc.mapper.GenreRowMapper;
+import com.mirus.movieland.jdbc.mapper.GenreRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;

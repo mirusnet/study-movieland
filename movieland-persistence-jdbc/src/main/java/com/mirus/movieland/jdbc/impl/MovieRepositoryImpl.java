@@ -1,10 +1,10 @@
-package com.mirus.movieland.repository.jdbc.impl;
+package com.mirus.movieland.jdbc.impl;
 
 import com.mirus.movieland.data.SortParameters;
 import com.mirus.movieland.entity.Movie;
 import com.mirus.movieland.repository.MovieRepository;
-import com.mirus.movieland.repository.jdbc.mapper.MovieRowMapper;
-import com.mirus.movieland.repository.jdbc.util.QueryBuilder;
+import com.mirus.movieland.jdbc.mapper.MovieRowMapper;
+import com.mirus.movieland.jdbc.util.QueryBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;

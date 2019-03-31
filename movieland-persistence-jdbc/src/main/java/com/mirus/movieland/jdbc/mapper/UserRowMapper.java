@@ -1,7 +1,7 @@
-package com.mirus.movieland.repository.jdbc.mapper;
+package com.mirus.movieland.jdbc.mapper;
 
-import com.mirus.movieland.data.Role;
 import com.mirus.movieland.entity.User;
+import com.mirus.movieland.data.Role;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

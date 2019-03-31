@@ -1,8 +1,8 @@
-package com.mirus.movieland.repository.jdbc.impl;
+package com.mirus.movieland.jdbc.impl;
 
 import com.mirus.movieland.entity.Review;
 import com.mirus.movieland.repository.ReviewRepository;
-import com.mirus.movieland.repository.jdbc.mapper.ReviewRowMapper;
+import com.mirus.movieland.jdbc.mapper.ReviewRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;

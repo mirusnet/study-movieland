@@ -1,8 +1,8 @@
-package com.mirus.movieland.repository.jdbc.impl;
+package com.mirus.movieland.jdbc.impl;
 
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.repository.UserRepository;
-import com.mirus.movieland.repository.jdbc.mapper.UserRowMapper;
+import com.mirus.movieland.jdbc.mapper.UserRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;

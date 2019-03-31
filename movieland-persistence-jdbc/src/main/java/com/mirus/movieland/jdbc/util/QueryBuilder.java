@@ -1,4 +1,4 @@
-package com.mirus.movieland.repository.jdbc.util;
+package com.mirus.movieland.jdbc.util;
 
 import com.mirus.movieland.data.SortParameters;
 import lombok.extern.slf4j.Slf4j;

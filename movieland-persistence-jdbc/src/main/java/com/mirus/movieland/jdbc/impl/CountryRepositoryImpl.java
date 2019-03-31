@@ -1,8 +1,8 @@
-package com.mirus.movieland.repository.jdbc.impl;
+package com.mirus.movieland.jdbc.impl;
 
 import com.mirus.movieland.entity.Country;
+import com.mirus.movieland.jdbc.mapper.CountryRowMapper;
 import com.mirus.movieland.repository.CountryRepository;
-import com.mirus.movieland.repository.jdbc.mapper.CountryRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;

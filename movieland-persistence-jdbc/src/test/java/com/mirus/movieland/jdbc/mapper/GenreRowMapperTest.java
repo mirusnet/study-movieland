@@ -1,4 +1,4 @@
-package com.mirus.movieland.repository.jdbc.mapper;
+package com.mirus.movieland.jdbc.mapper;
 
 import com.mirus.movieland.entity.Genre;
 import org.junit.Test;
