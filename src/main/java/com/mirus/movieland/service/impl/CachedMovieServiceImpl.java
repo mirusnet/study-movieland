@@ -14,9 +14,6 @@ import java.lang.ref.SoftReference;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Slf4j
 @Service
@@ -26,10 +23,6 @@ public class CachedMovieServiceImpl implements MovieService {
     private final MovieService movieService;
     private final MovieEnrichmentService movieEnrichmentService;
     private final Map<Integer, SoftReference<Movie>> movieCache = new ConcurrentHashMap<>();
-
-    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    private final Lock readLock = readWriteLock.readLock();
-    private final Lock writeLock = readWriteLock.writeLock();
 
     @Override
     public List<Movie> findAll() {
