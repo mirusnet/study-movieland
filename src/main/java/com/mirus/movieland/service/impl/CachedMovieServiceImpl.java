@@ -61,7 +61,7 @@ public class CachedMovieServiceImpl implements MovieService {
             }
         });
 
-        return movieSoftReference.get();
+        return new Movie(movieSoftReference.get());
     }
 
     @Override
