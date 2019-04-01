@@ -14,6 +14,9 @@ import java.lang.ref.SoftReference;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Slf4j
 @Service
@@ -22,8 +25,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CachedMovieServiceImpl implements MovieService {
     private final MovieService movieService;
     private final MovieEnrichmentService movieEnrichmentService;
+    private final Map<Integer, SoftReference<Movie>> movieCache = new ConcurrentHashMap<>();
 
-    private Map<Integer, SoftReference<Movie>> movieCache = new ConcurrentHashMap<>();
+    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private final Lock readLock = readWriteLock.readLock();
+    private final Lock writeLock = readWriteLock.writeLock();
 
     @Override
     public List<Movie> findAll() {
@@ -52,14 +58,17 @@ public class CachedMovieServiceImpl implements MovieService {
 
     @Override
     public Movie findById(int id) {
-        SoftReference<Movie> movieSoftReference;
-        if (movieCache.get(id) != null && movieCache.get(id).get() == null) {
-            log.info("The cache for movie {} was cleaned by GC", id);
-            movieSoftReference = movieCache.put(id, new SoftReference<>(movieService.findById(id)));
-        } else {
-            movieSoftReference = movieCache.computeIfAbsent(id, (key) -> new SoftReference<>(movieService.findById(key)));
-        }
-        return new Movie(movieSoftReference.get());
+        SoftReference<Movie> movieSoftReference = movieCache.compute(id, (Integer k, SoftReference<Movie> v) -> {
+            if (v != null && v.get() != null) {
+                log.info("Movie for id {} was taken from the cache", id);
+                return v;
+            } else {
+                log.info("Adding movie {} to the cache", id);
+                return new SoftReference<>(movieService.findById(id));
+            }
+        });
+
+        return movieSoftReference.get();
     }
 
     @Override
