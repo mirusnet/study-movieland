@@ -6,6 +6,7 @@ import com.mirus.movieland.repository.data.SortParameters;
 import com.mirus.movieland.service.MovieEnrichmentService;
 import com.mirus.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Service
 @Primary
 @RequiredArgsConstructor
 public class CachedMovieServiceImpl implements MovieService {
     private final MovieService movieService;
     private final MovieEnrichmentService movieEnrichmentService;
-
-    private Map<Integer, SoftReference<Movie>> movieCache = new ConcurrentHashMap<>();
+    private final Map<Integer, SoftReference<Movie>> movieCache = new ConcurrentHashMap<>();
 
     @Override
     public List<Movie> findAll() {
@@ -50,8 +51,17 @@ public class CachedMovieServiceImpl implements MovieService {
 
     @Override
     public Movie findById(int id) {
-        Movie movie = movieCache.computeIfAbsent(id, (key) -> new SoftReference<>(movieService.findById(key))).get();
-        return new Movie(movie);
+        SoftReference<Movie> movieSoftReference = movieCache.compute(id, (Integer k, SoftReference<Movie> v) -> {
+            if (v != null && v.get() != null) {
+                log.info("Movie for id {} was taken from the cache", id);
+                return v;
+            } else {
+                log.info("Adding movie {} to the cache", id);
+                return new SoftReference<>(movieService.findById(id));
+            }
+        });
+
+        return new Movie(movieSoftReference.get());
     }
 
     @Override
@@ -74,6 +84,6 @@ public class CachedMovieServiceImpl implements MovieService {
         Movie updatedMovie = movieService.update(movie, genreIds, contryIds);
         movieEnrichmentService.enrich(updatedMovie);
         SoftReference<Movie> softReference = movieCache.computeIfPresent(movie.getId(), (key, oldRef) -> new SoftReference<>(movie));
-        return (softReference == null) ? updatedMovie : softReference.get();
+        return (softReference == null) ? new Movie(updatedMovie) : new Movie(softReference.get());
     }
 }
