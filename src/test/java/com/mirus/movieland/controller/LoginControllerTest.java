@@ -1,6 +1,9 @@
 package com.mirus.movieland.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mirus.movieland.config.RootConfig;
+import com.mirus.movieland.config.TestContext;
+import com.mirus.movieland.config.WebConfig;
 import com.mirus.movieland.data.dto.LoginRequestDto;
 import com.mirus.movieland.entity.User;
 import com.mirus.movieland.security.SecurityService;
@@ -30,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:testContext.xml", "file:src/main/webapp/WEB-INF/movieland-servlet.xml", "classpath:spring/root-context.xml"})
+@ContextConfiguration(classes = {RootConfig.class, WebConfig.class, TestContext.class})
 public class LoginControllerTest {
 
     private MockMvc mockMvc;

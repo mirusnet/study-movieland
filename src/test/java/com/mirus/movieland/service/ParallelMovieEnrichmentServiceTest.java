@@ -1,5 +1,8 @@
 package com.mirus.movieland.service;
 
+import com.mirus.movieland.config.RootConfig;
+import com.mirus.movieland.config.TestContext;
+import com.mirus.movieland.config.WebConfig;
 import com.mirus.movieland.entity.Country;
 import com.mirus.movieland.entity.Genre;
 import com.mirus.movieland.entity.Movie;
@@ -25,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = {"classpath:spring/root-context.xml"})
+@ContextConfiguration(classes = {RootConfig.class, TestContext.class})
 public class ParallelMovieEnrichmentServiceTest {
 
     @Autowired
@@ -70,7 +73,6 @@ public class ParallelMovieEnrichmentServiceTest {
                 reviewService
         );
         parallelMovieEnrichmentService.setEnrichmentTimeoutSeconds(2);
-
 
 
         when(genreService.findByMovieId(0)).thenAnswer((Answer<List<Genre>>) invocation -> {
