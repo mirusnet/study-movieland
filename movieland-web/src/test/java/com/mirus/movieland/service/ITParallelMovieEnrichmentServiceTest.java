@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {RootConfig.class, TestContext.class})
-public class ParallelMovieEnrichmentServiceTest {
+public class ITParallelMovieEnrichmentServiceTest {
 
     @Autowired
     private ExecutorService executorService;

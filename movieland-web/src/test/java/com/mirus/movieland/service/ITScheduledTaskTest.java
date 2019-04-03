@@ -15,7 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {RootConfig.class, TestContext.class})
-public class ScheduledTaskTest {
+public class ITScheduledTaskTest {
 
     @Value("${genre.clean.cron.expression}")
     private String genreCacheCleanCronExpression;

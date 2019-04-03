@@ -1,11 +1,10 @@
-
 package com.mirus.movieland.controller;
 
 import com.mirus.movieland.config.RootConfig;
 import com.mirus.movieland.config.TestContext;
 import com.mirus.movieland.config.WebConfig;
-import com.mirus.movieland.entity.Genre;
-import com.mirus.movieland.service.GenreService;
+import com.mirus.movieland.entity.Country;
+import com.mirus.movieland.service.CountryService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,48 +29,43 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {RootConfig.class, WebConfig.class, TestContext.class})
-public class GenreControllerTest {
+public class ITCountryControllerTest {
 
     private MockMvc mockMvc;
-    private List<Genre> genres;
+    private List<Country> countries;
 
     @Autowired
-    private GenreService genreService;
+    private CountryService countryService;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Before
     public void setUp() {
-        Mockito.reset(genreService);
+        Mockito.reset(countryService);
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        Genre genre = new Genre(0, "comedy");
-        Genre genre1 = new Genre(1, "detective");
+        Country country1 = new Country(1, "USA");
+        Country country2 = new Country(2, "USSR");
 
-        genres = Arrays.asList(genre, genre1);
+        countries = Arrays.asList(country1, country2);
     }
-
-    @Test
-    public void testOkStatusForAllGenres() throws Exception {
-        mockMvc.perform(get("/genre"))
-                .andExpect(status().isOk());
-    }
-
 
     @Test
     public void testGetAllGenres() throws Exception {
-        when(genreService.findAll()).thenReturn(genres);
+        when(countryService.findAll()).thenReturn(countries);
 
-        mockMvc.perform(get("/genre"))
+        mockMvc.perform(get("/country"))
+                .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", is(0)))
-                .andExpect(jsonPath("$[0].name", is("comedy")))
-                .andExpect(jsonPath("$[1].id", is(1)))
-                .andExpect(jsonPath("$[1].name", is("detective")));
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].name", is("USA")))
+                .andExpect(jsonPath("$[1].id", is(2)))
+                .andExpect(jsonPath("$[1].name", is("USSR")));
     }
 }
