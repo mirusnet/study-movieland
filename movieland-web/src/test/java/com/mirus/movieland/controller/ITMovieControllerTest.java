@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {RootConfig.class, WebConfig.class, TestContext.class})
-public class MovieControllerTest {
+public class ITMovieControllerTest {
 
     private MockMvc mockMvc;
 

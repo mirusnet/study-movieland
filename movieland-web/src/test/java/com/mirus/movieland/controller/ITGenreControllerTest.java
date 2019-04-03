@@ -1,14 +1,11 @@
+
 package com.mirus.movieland.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mirus.movieland.config.RootConfig;
 import com.mirus.movieland.config.TestContext;
 import com.mirus.movieland.config.WebConfig;
-import com.mirus.movieland.data.Role;
-import com.mirus.movieland.data.Session;
-import com.mirus.movieland.dto.LoginRequestDto;
-import com.mirus.movieland.entity.User;
-import com.mirus.movieland.service.SecurityService;
+import com.mirus.movieland.entity.Genre;
+import com.mirus.movieland.service.GenreService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,53 +19,59 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {RootConfig.class, WebConfig.class, TestContext.class})
-public class LoginControllerTest {
+public class ITGenreControllerTest {
 
     private MockMvc mockMvc;
+    private List<Genre> genres;
+
+    @Autowired
+    private GenreService genreService;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @Autowired
-    SecurityService securityService;
-
     @Before
     public void setUp() {
-       Mockito.reset(securityService);
+        Mockito.reset(genreService);
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+        Genre genre = new Genre(0, "comedy");
+        Genre genre1 = new Genre(1, "detective");
+
+        genres = Arrays.asList(genre, genre1);
     }
 
     @Test
     public void testOkStatusForAllGenres() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(get("/genre"))
+                .andExpect(status().isOk());
+    }
 
-        String userName = "name";
-        String userEmail = "test@test.com";
-        String password = "Alexander do not steal my code!!!";
 
-        User user = new User(1, userName, userEmail, Role.ANONYMOUS, password);
+    @Test
+    public void testGetAllGenres() throws Exception {
+        when(genreService.findAll()).thenReturn(genres);
 
-        String request = objectMapper.writeValueAsString(new LoginRequestDto(userEmail, password));
-        when(securityService.login(userEmail, password)).thenReturn(new Session(user));
-        mockMvc.perform(post("/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request)
-                .characterEncoding("utf-8"))
-                .andDo(print())
-                .andExpect(status().isOk())
+        mockMvc.perform(get("/genre"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.nickname", is(userName)));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id", is(0)))
+                .andExpect(jsonPath("$[0].name", is("comedy")))
+                .andExpect(jsonPath("$[1].id", is(1)))
+                .andExpect(jsonPath("$[1].name", is("detective")));
     }
 }
